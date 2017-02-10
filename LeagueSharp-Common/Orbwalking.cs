@@ -509,7 +509,22 @@ namespace LeagueSharp.Common
         /// <returns>System.Single.</returns>
         public static float GetRealAutoAttackRange(AttackableUnit target = null)
         {
-            return EloBuddy.Player.Instance.GetAutoAttackRange(null);
+            var result = EloBuddy.Player.Instance.GetAutoAttackRange(target);
+            if (target.IsValidTarget() && target != null)
+            {
+                var aiBase = target as Obj_AI_Base;
+                if (aiBase != null && Player.ChampionName == "Caitlyn")
+                {
+                    if (aiBase.HasBuff("caitlynyordletrapinternal"))
+                    {
+                        result += 650;
+                    }
+                }
+
+                return result;
+            }
+
+            return result - 25;
         }
 
         /// <summary>
