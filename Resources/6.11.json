@@ -9002,7 +9002,7 @@
 				"SpellData": {
 					"SpellEffectType": "Single",
 					"DamageType": "Magical",
-					"Damages": [ 70, 90, 110, 130, 150 ],
+					"Damages": [ 60, 70, 80, 90, 100 ],
 					"BonusDamages": [
 						{
 							"DamageType": "Magical",
