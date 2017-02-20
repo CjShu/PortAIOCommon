@@ -23,6 +23,7 @@ namespace LeagueSharp.SDK
 
     using LeagueSharp.SDK.Enumerations;
     using EloBuddy;
+    using EloBuddy.SDK.Events;
 
     /// <summary>
     ///     Teleport class, contains Teleport even which is triggered on recalls, teleports and shen or twisted fate
@@ -84,7 +85,7 @@ namespace LeagueSharp.SDK
         /// <param name="args">
         ///     The event data
         /// </param>
-        private static void EventTeleport(Obj_AI_Base sender, GameObjectTeleportEventArgs args)
+        private static void EventTeleport(Obj_AI_Base sender, Teleport.TeleportEventArgs args)
         {
             var eventArgs = new TeleportEventArgs { Status = TeleportStatus.Unknown, Type = TeleportType.Unknown };
 
@@ -99,10 +100,10 @@ namespace LeagueSharp.SDK
                 TeleportDataByNetworkId[sender.NetworkId] = eventArgs;
             }
 
-            if (!string.IsNullOrEmpty(args.RecallType))
+            if (!string.IsNullOrEmpty(args.Type.ToString()))
             {
                 ITeleport value;
-                if (TypeByString.TryGetValue(args.RecallType, out value))
+                if (TypeByString.TryGetValue(args.Type.ToString(), out value))
                 {
                     var teleportMethod = value;
 
@@ -119,8 +120,8 @@ namespace LeagueSharp.SDK
                 {
                     Console.WriteLine(
                         @"Teleport type {0} with name {1} is not supported yet. Please report it!",
-                        args.RecallType,
-                        args.RecallName);
+                        args.Type.ToString(),
+                        args.Status.ToString());
                 }
             }
             else
@@ -213,7 +214,7 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     Duration of the teleport.
         /// </returns>
-        int GetDuration(GameObjectTeleportEventArgs args);
+        int GetDuration(Teleport.TeleportEventArgs args);
 
         /// <summary>
         ///     Is Target
@@ -224,7 +225,7 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     returns where the teleport is target.
         /// </returns>
-        bool IsTarget(GameObjectTeleportEventArgs args);
+        bool IsTarget(Teleport.TeleportEventArgs args);
 
         #endregion
     }
@@ -254,11 +255,11 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     Duration of the teleport.
         /// </returns>
-        public int GetDuration(GameObjectTeleportEventArgs args)
+        public int GetDuration(Teleport.TeleportEventArgs args)
         {
             var duration = 0;
 
-            switch (args.RecallName.ToLower())
+            switch (args.Type.ToString().ToLower())
             {
                 case "recall":
                     duration = 8000;
@@ -279,7 +280,7 @@ namespace LeagueSharp.SDK
                     duration = 4000;
                     break;
                 default:
-                    Console.WriteLine($"Recall {args.RecallName} is not supported yet. Please report it!");
+                    Console.WriteLine($"Recall {args.Type.ToString()} is not supported yet. Please report it!");
                     break;
             }
 
@@ -295,7 +296,7 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     returns where the teleport is target.
         /// </returns>
-        public bool IsTarget(GameObjectTeleportEventArgs args)
+        public bool IsTarget(Teleport.TeleportEventArgs args)
         {
             return false;
         }
@@ -328,7 +329,7 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     Duration of the teleport.
         /// </returns>
-        public int GetDuration(GameObjectTeleportEventArgs args)
+        public int GetDuration(Teleport.TeleportEventArgs args)
         {
             return 4500;
         }
@@ -342,9 +343,9 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     returns where the teleport is target.
         /// </returns>
-        public bool IsTarget(GameObjectTeleportEventArgs args)
+        public bool IsTarget(Teleport.TeleportEventArgs args)
         {
-            return !string.Equals(args.RecallName, "summonerteleport", StringComparison.InvariantCultureIgnoreCase);
+            return !string.Equals(args.Type.ToString(), "summonerteleport", StringComparison.InvariantCultureIgnoreCase);
         }
 
         #endregion
@@ -375,7 +376,7 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     Duration of the teleport.
         /// </returns>
-        public int GetDuration(GameObjectTeleportEventArgs args)
+        public int GetDuration(Teleport.TeleportEventArgs args)
         {
             return 1500;
         }
@@ -389,9 +390,9 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     returns where the teleport is target.
         /// </returns>
-        public bool IsTarget(GameObjectTeleportEventArgs args)
+        public bool IsTarget(Teleport.TeleportEventArgs args)
         {
-            return !string.Equals(args.RecallName, "gate", StringComparison.InvariantCultureIgnoreCase);
+            return !string.Equals(args.Type.ToString(), "gate", StringComparison.InvariantCultureIgnoreCase);
         }
 
         #endregion
@@ -422,7 +423,7 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     Duration of the teleport.
         /// </returns>
-        public int GetDuration(GameObjectTeleportEventArgs args)
+        public int GetDuration(Teleport.TeleportEventArgs args)
         {
             return 3000;
         }
@@ -436,9 +437,9 @@ namespace LeagueSharp.SDK
         /// <returns>
         ///     returns where the teleport is target.
         /// </returns>
-        public bool IsTarget(GameObjectTeleportEventArgs args)
+        public bool IsTarget(Teleport.TeleportEventArgs args)
         {
-            return !string.Equals(args.RecallName, "ShenStandUnited", StringComparison.InvariantCultureIgnoreCase);
+            return !string.Equals(args.Type.ToString(), "ShenStandUnited", StringComparison.InvariantCultureIgnoreCase);
         }
 
         #endregion

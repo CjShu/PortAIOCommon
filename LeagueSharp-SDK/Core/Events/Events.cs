@@ -19,6 +19,7 @@ namespace LeagueSharp.SDK
 {
     using System;
     using EloBuddy;
+    using EloBuddy.SDK.Events;
 
     /// <summary>
     ///     The provided events by the kit.
@@ -33,12 +34,12 @@ namespace LeagueSharp.SDK
         static Events()
         {
             Game.OnUpdate += OnUpdate;
-            Obj_AI_Base.OnSpellCast += OnProcessSpellCast;
+            Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Obj_AI_Base.OnNewPath += OnNewPath;
             Spellbook.OnStopCast += OnStopCast;
             GameObject.OnCreate += OnCreate;
-            GameObject.OnIntegerPropertyChange += OnIntegerPropertyChange;
-            Obj_AI_Base.OnTeleport += OnTeleportEvent;
+            //GameObject.OnIntegerPropertyChange += OnIntegerPropertyChange;
+            Teleport.OnTeleport += OnTeleportEvent;
 
             EventTurretConstruct();
         }
@@ -72,7 +73,7 @@ namespace LeagueSharp.SDK
         /// </param>
         private static void OnIntegerPropertyChange(GameObject sender, GameObjectIntegerPropertyChangeEventArgs args)
         {
-            EventStealth(sender, args);
+            //EventStealth(sender, args);
         }
 
         /// <summary>
@@ -128,7 +129,7 @@ namespace LeagueSharp.SDK
         /// <param name="args">
         ///     The args.
         /// </param>
-        private static void OnTeleportEvent(Obj_AI_Base sender, GameObjectTeleportEventArgs args)
+        private static void OnTeleportEvent(Obj_AI_Base sender, Teleport.TeleportEventArgs args)
         {
             EventTeleport(sender, args);
         }

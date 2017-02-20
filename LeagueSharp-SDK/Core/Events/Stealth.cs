@@ -48,25 +48,6 @@ namespace LeagueSharp.SDK
         /// </param>
         private static void EventStealth(GameObject sender, GameObjectIntegerPropertyChangeEventArgs args)
         {
-            var hero = sender as AIHeroClient;
-            if (hero == null || !args.Property.Equals("ActionState"))
-            {
-                return;
-            }
-
-            var oldState = (GameObjectCharacterState)args.Value;
-            var newState = (GameObjectCharacterState)args.Value;
-
-            if (!oldState.HasFlag(GameObjectCharacterState.IsStealth)
-                && newState.HasFlag(GameObjectCharacterState.IsStealth))
-            {
-                FireOnStealth(new OnStealthEventArgs { Sender = hero, Time = Game.Time, IsStealthed = true });
-            }
-            else if (oldState.HasFlag(GameObjectCharacterState.IsStealth)
-                     && !newState.HasFlag(GameObjectCharacterState.IsStealth))
-            {
-                FireOnStealth(new OnStealthEventArgs { Sender = hero, IsStealthed = false });
-            }
         }
 
         /// <summary>
