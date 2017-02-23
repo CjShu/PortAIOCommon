@@ -159,9 +159,9 @@ namespace LeagueSharp.SDK
         /// </param>
         private void OnGameUpdate(EventArgs args)
         {
-            foreach (var entry in this.entries.Where(e => e.Visible != !e.Hero.IsVisible))
+            foreach (var entry in this.entries.Where(e => e.Visible != !e.Hero.IsHPBarRendered))
             {
-                entry.Visible = entry.Hero.IsVisible;
+                entry.Visible = entry.Hero.IsHPBarRendered;
                 entry.LastVisibleChangeTick = Variables.TickCount;
             }
         }

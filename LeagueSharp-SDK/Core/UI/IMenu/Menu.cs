@@ -256,7 +256,7 @@ namespace LeagueSharp.SDK.UI
                 }
                 else
                 {
-                    throw new Exception("This menu already contains a component with the name " + component.Name);
+                    //throw new Exception("This menu already contains a component with the name " + component.Name);
                 }
             }
 

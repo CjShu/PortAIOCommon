@@ -1016,7 +1016,7 @@
                 {
                     var target = Variables.TargetSelector.GetTarget(-1f, DamageType.Physical);
 
-                    if (target.InAutoAttackRange())
+                    if (target != null && target.IsHPBarRendered && target.InAutoAttackRange())
                     {
                         return target;
                     }
@@ -1065,7 +1065,7 @@
                 }
 
                 // Forced Target
-                if (this.orbwalk.ForceTarget.InAutoAttackRange())
+                if (this.orbwalk.ForceTarget != null && this.orbwalk.ForceTarget.InAutoAttackRange())
                 {
                     return this.orbwalk.ForceTarget;
                 }
@@ -1096,7 +1096,7 @@
                 {
                     var target = Variables.TargetSelector.GetTarget(-1f, DamageType.Physical);
 
-                    if (target.InAutoAttackRange())
+                    if (target != null && target.IsHPBarRendered && target.InAutoAttackRange())
                     {
                         return target;
                     }

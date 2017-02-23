@@ -260,7 +260,7 @@ namespace LeagueSharp.SDK
             }
 
             var targets =
-                this.Humanizer.FilterTargets(GameObjects.EnemyHeroes.ToList())
+                EloBuddy.SDK.EntityManager.Heroes.Enemies
                     .Where(h => ignoreChampions == null || ignoreChampions.All(i => !i.Compare(h)))
                     .Where(h => IsValidTarget(h, range, damageType, ignoreShields, from))
                     .ToList();

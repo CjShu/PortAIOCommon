@@ -38,7 +38,6 @@ namespace LeagueSharp.SDK
             Obj_AI_Base.OnNewPath += OnNewPath;
             Spellbook.OnStopCast += OnStopCast;
             GameObject.OnCreate += OnCreate;
-            //GameObject.OnIntegerPropertyChange += OnIntegerPropertyChange;
             Teleport.OnTeleport += OnTeleportEvent;
 
             EventTurretConstruct();
@@ -60,20 +59,6 @@ namespace LeagueSharp.SDK
         private static void OnCreate(GameObject sender, EventArgs args)
         {
             EventTurret(sender);
-        }
-
-        /// <summary>
-        ///     On integer property change event.
-        /// </summary>
-        /// <param name="sender">
-        ///     The sender.
-        /// </param>
-        /// <param name="args">
-        ///     The args.
-        /// </param>
-        private static void OnIntegerPropertyChange(GameObject sender, GameObjectIntegerPropertyChangeEventArgs args)
-        {
-            //EventStealth(sender, args);
         }
 
         /// <summary>
