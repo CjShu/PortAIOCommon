@@ -2565,7 +2565,7 @@ namespace LeagueSharp.Common
                         Damage =
                             (source, target, level) =>
                                 new double[] {300, 475, 650}[level]
-                                + 0.7*source.TotalMagicalDamage
+                                + 0.5*source.TotalMagicalDamage
                     },
                 });
 
@@ -2625,9 +2625,9 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Magical,
                         Damage =
                             (source, target, level) =>
-                                new double[] {100, 130, 160}[level]
-                                + 0.3*source.TotalMagicalDamage
-                                + new double[] {20, 60, 100}[level]/100
+                                new double[] {75, 100, 125}[level]
+                                + 0.2*source.TotalMagicalDamage
+                                + new double[] {15, 45, 75}[level]/100
                                 *source.TotalAttackDamage
                     },
                     //R - Big missile
@@ -2638,8 +2638,8 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Magical,
                         Damage =
                             (source, target, level) =>
-                                new double[] {150, 195, 240}[level]
-                                + 0.45*source.TotalMagicalDamage
+                                new double[] {150, 200, 250}[level]
+                                + 0.40*source.TotalMagicalDamage
                                 + new double[] {30, 75, 120}[level]/100
                                 *source.TotalAttackDamage
                     },
@@ -4805,21 +4805,10 @@ namespace LeagueSharp.Common
                                 (new double[] {9, 10, 11, 12, 13}[level]/100
                                  + 0.03/100*source.TotalMagicalDamage)*target.MaxHealth
                     },
-                    //E - impact
-                    new DamageSpell
-                    {
-                        Slot = SpellSlot.E,
-                        DamageType = DamageType.Magical,
-                        Damage =
-                            (source, target, level) =>
-                                new double[] {40, 60, 80, 100, 120}[level]
-                                + 0.4*source.TotalMagicalDamage
-                    },
                     //E - explosion
                     new DamageSpell
                     {
                         Slot = SpellSlot.E,
-                        Stage = 1,
                         DamageType = DamageType.Magical,
                         Damage =
                             (source, target, level) =>
