@@ -674,8 +674,17 @@ namespace LeagueSharp.Common
                             {
                                 LastAttackCommandT = Core.GameTickCount;
                                 _lastTarget = target;
-                            }
 
+                                Core.DelayAction(
+                                    delegate
+                                    {
+                                        LastAATick = Core.GameTickCount - Game.Ping / 2;
+                                        _missileLaunched = false;
+                                        LastMoveCommandT = 0;
+                                        _autoattackCounter++;
+                                    }
+                                    , Game.Ping + 35);
+                            }
                             return;
                         }
                     }
