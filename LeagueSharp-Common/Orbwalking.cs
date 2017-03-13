@@ -161,10 +161,11 @@ namespace LeagueSharp.Common
             Player = ObjectManager.Player;
             _championName = Player.ChampionName;
             Obj_AI_Base.OnProcessSpellCast += new Obj_AI_ProcessSpellCast(OnProcessSpellCast);
-            Obj_AI_Base.OnBasicAttack += new Obj_AI_BaseOnBasicAttack(OnBasicAttack);
+            //Obj_AI_Base.OnBasicAttack += new Obj_AI_BaseOnBasicAttack(OnBasicAttack);
             Obj_AI_Base.OnSpellCast += new Obj_AI_BaseDoCastSpell(Obj_AI_Base_OnDoCast);
             Spellbook.OnStopCast += new SpellbookStopCast(SpellbookOnStopCast);
             EloBuddy.Player.OnIssueOrder += Player_OnIssueOrder;
+            Obj_AI_Base.OnPlayAnimation += Obj_AI_Base_OnPlayAnimation;
 
             if (_championName == "Rengar")
             {
@@ -190,6 +191,29 @@ namespace LeagueSharp.Common
 
                 GameObject.OnCreate += OnCreate;
                 GameObject.OnDelete += OnDelete;
+            }
+        }
+
+        private static void Obj_AI_Base_OnPlayAnimation(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
+        {
+            if (sender.IsMe)
+            {
+                if (args.Animation == "Attack1" ||
+                    args.Animation == "Crit" ||
+                    args.Animation == "Attack2" ||
+                    args.AnimationHash.ToString("x8") == "d7d89ccc" || // kali
+                    args.AnimationHash.ToString("x8") == "a75d185e" || // yi
+                    args.AnimationHash.ToString("x8") == "58b1ec4a" || // yasuo
+                    args.AnimationHash.ToString("x8") == "53b1e46b" || // yasuo
+                    args.AnimationHash.ToString("x8") == "730fbce4" || // yasuo
+                    args.AnimationHash.ToString("x8") == "b7f64047" // twitch
+                    )
+                {
+                    LastAATick = Core.GameTickCount - Game.Ping / 2;
+                    _missileLaunched = false;
+                    LastMoveCommandT = 0;
+                    _autoattackCounter++;
+                }
             }
         }
 
@@ -674,16 +698,6 @@ namespace LeagueSharp.Common
                             {
                                 LastAttackCommandT = Core.GameTickCount;
                                 _lastTarget = target;
-
-                                Core.DelayAction(
-                                    delegate
-                                    {
-                                        LastAATick = Core.GameTickCount - Game.Ping / 2;
-                                        _missileLaunched = false;
-                                        LastMoveCommandT = 0;
-                                        _autoattackCounter++;
-                                    }
-                                    , Game.Ping + 35);
                             }
                             return;
                         }
@@ -1632,7 +1646,7 @@ namespace LeagueSharp.Common
                     {
                         if (this._prevMinion != null)
                         {
-                            if (!this._prevMinion.IsDead && this._prevMinion.IsValidTarget() && this.InAutoAttackRange(this._prevMinion))
+                            if (!this._prevMinion.IsDead && this.InAutoAttackRange(this._prevMinion))
                             {
                                 var predHealth = HealthPrediction.LaneClearHealthPrediction(
                                     this._prevMinion,
@@ -1650,7 +1664,7 @@ namespace LeagueSharp.Common
                         result = (from minion in
                                       ObjectManager.Get<Obj_AI_Minion>()
                                       .Where(
-                                          minion => minion.IsValidTarget() && this.InAutoAttackRange(minion)
+                                          minion => this.InAutoAttackRange(minion)
                                           && this.ShouldAttackMinion(minion) && !minion.BaseSkinName.Contains("Plant"))
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(

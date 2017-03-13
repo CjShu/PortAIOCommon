@@ -4319,7 +4319,7 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Physical,
                         Damage = (source, target, level) =>
                         {
-                            var count = target.GetBuffCount("kalistaexpungemarker");
+                            var count = target.Buffs.FirstOrDefault(x => x.Name == "kalistaexpungemarker").Count;
                             if (count > 0)
                             {
                                 return (new double[] {20, 30, 40, 50, 60}[level]
