@@ -57,7 +57,7 @@
         {
             get
             {
-                return Path.Combine(Config.AppDataDirectory, "PortAIOMenuSaveData");
+                return Path.Combine(Config.AppDataDirectory, "EbMenuSaveData");
             }
         }
 

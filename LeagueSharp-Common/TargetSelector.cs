@@ -112,7 +112,7 @@
 
         public static void AddToMenu(Menu config)
         {
-            config.AddItem(new MenuItem("Alert", "----Use TS in Common Menu----"));
+            config.AddItem(new MenuItem("Alert", "目標選擇器已移至基礎功能菜單----"));
         }
 
         /// <summary>
@@ -304,35 +304,35 @@
 
         public static void Initialize()
         {
-            var config = new Menu("Target Selector", "TargetSelector");
+            var config = new Menu("目標選擇", "TargetSelector");
 
             _configMenu = config;
 
-            var focusMenu = new Menu("Focus Target Settings", "FocusTargetSettings");
+            var focusMenu = new Menu("指定目標選擇", "FocusTargetSettings");
 
-            focusMenu.AddItem(new MenuItem("FocusSelected", "Focus selected target").SetShared().SetValue(true));
+            focusMenu.AddItem(new MenuItem("FocusSelected", "選中目標畫圈").SetShared().SetValue(true));
             focusMenu.AddItem(
-                new MenuItem("SelTColor", "Focus selected target color").SetShared()
+                new MenuItem("SelTColor", "選定目標線圈顏色").SetShared()
                     .SetValue(new Circle(true, Color.Red)));
             focusMenu.AddItem(
-                new MenuItem("ForceFocusSelected", "Only attack selected target").SetShared().SetValue(false));
+                new MenuItem("ForceFocusSelected", "只攻擊已選定的目標").SetShared().SetValue(false));
             focusMenu.AddItem(new MenuItem("sep", ""));
             focusMenu.AddItem(
-                new MenuItem("ForceFocusSelectedKeys", "Enable only attack selected Keys").SetShared()
+                new MenuItem("ForceFocusSelectedKeys", "啟動只攻擊選定的目標").SetShared()
                     .SetValue(false));
-            focusMenu.AddItem(new MenuItem("ForceFocusSelectedK", "Only attack selected Key"))
+            focusMenu.AddItem(new MenuItem("ForceFocusSelectedK", "只有攻擊選擇目標按鍵"))
                 .SetValue(new KeyBind(32, KeyBindType.Press));
-            focusMenu.AddItem(new MenuItem("ForceFocusSelectedK2", "Only attack selected Key 2"))
+            focusMenu.AddItem(new MenuItem("ForceFocusSelectedK2", "只有攻擊選定目標按鍵"))
                 .SetValue(new KeyBind(32, KeyBindType.Press));
-            focusMenu.AddItem(new MenuItem("ResetOnRelease", "Reset selected target upon release"))
+            focusMenu.AddItem(new MenuItem("ResetOnRelease", "選定目標後施放"))
                 .SetValue(false);
 
             config.AddSubMenu(focusMenu);
 
             var autoPriorityItem =
-                new MenuItem("AutoPriority", "Auto arrange priorities").SetShared()
+                new MenuItem("AutoPriority", "自動排列優先級數").SetShared()
                     .SetValue(true)
-                    .SetTooltip("5 = Highest Priority");
+                    .SetTooltip("5 = 最高優先 1 = 最低優先");
             autoPriorityItem.ValueChanged += autoPriorityItem_ValueChanged;
 
             foreach (var enemy in HeroManager.Enemies)
@@ -357,7 +357,7 @@
             }
             config.AddItem(autoPriorityItem);
             config.AddItem(
-                new MenuItem("TargetingMode", "Target Mode").SetShared()
+                new MenuItem("TargetingMode", "目標模式").SetShared()
                     .SetValue(new StringList(Enum.GetNames(typeof(TargetingMode)))));
 
             CommonMenu.Instance.AddSubMenu(config);

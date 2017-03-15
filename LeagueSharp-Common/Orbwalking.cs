@@ -1041,77 +1041,74 @@ namespace LeagueSharp.Common
             {
                 _config = attachToMenu;
                 /* Drawings submenu */
-                var drawings = new Menu("Drawings", "drawings");
+                var drawings = new Menu("顯示", "drawings");
                 drawings.AddItem(
-                    new MenuItem("AACircle", "AACircle").SetShared()
+                    new MenuItem("AACircle", "自己AA範圍").SetShared()
                         .SetValue(new Circle(true, Color.FromArgb(155, 255, 255, 0))));
                 drawings.AddItem(
-                    new MenuItem("AACircle2", "Enemy AA circle").SetShared()
+                    new MenuItem("AACircle2", "敵人 AA 範圍").SetShared()
                         .SetValue(new Circle(false, Color.FromArgb(155, 255, 255, 0))));
                 drawings.AddItem(
-                    new MenuItem("HoldZone", "HoldZone").SetShared()
+                    new MenuItem("HoldZone", "停止不動區範圍").SetShared()
                         .SetValue(new Circle(false, Color.FromArgb(155, 255, 255, 0))));
-                drawings.AddItem(new MenuItem("AALineWidth", "Line Width")).SetShared().SetValue(new Slider(2, 1, 6));
-                drawings.AddItem(new MenuItem("LastHitHelper", "Last Hit Helper").SetShared().SetValue(false));
+                drawings.AddItem(new MenuItem("AALineWidth", "顯示線寬度")).SetShared().SetValue(new Slider(2, 1, 6));
+                drawings.AddItem(new MenuItem("LastHitHelper", "開啟自動最後補刀").SetShared().SetValue(false));
                 _config.AddSubMenu(drawings);
 
                 /* Misc options */
-                var misc = new Menu("Misc", "Misc");
+                var misc = new Menu("其他", "Misc");
                 misc.AddItem(
-                    new MenuItem("HoldPosRadius", "Hold Position Radius").SetShared().SetValue(new Slider(50, 50, 250)));
-                misc.AddItem(new MenuItem("PriorizeFarm", "Priorize farm over harass").SetShared().SetValue(true));
-                misc.AddItem(new MenuItem("AttackWards", "Auto attack wards").SetShared().SetValue(false));
-                misc.AddItem(new MenuItem("AttackPetsnTraps", "Auto attack pets & traps").SetShared().SetValue(true));
+                    new MenuItem("HoldPosRadius", "保持半徑距離").SetShared().SetValue(new Slider(50, 50, 250)));
+                misc.AddItem(new MenuItem("PriorizeFarm", "優先補兵").SetShared().SetValue(true));
+                misc.AddItem(new MenuItem("AttackWards", "自動攻擊眼").SetShared().SetValue(false));
+                misc.AddItem(new MenuItem("AttackPetsnTraps", "自動攻擊 寵物").SetShared().SetValue(true));
                 misc.AddItem(
-                    new MenuItem("AttackGPBarrel", "Auto attack gangplank barrel").SetShared()
-                        .SetValue(new StringList(new[] { "Combo and Farming", "Farming", "No" }, 1)));
-                misc.AddItem(new MenuItem("Smallminionsprio", "Jungle clear small first").SetShared().SetValue(false));
+                    new MenuItem("AttackGPBarrel", "自動攻擊 剛普 桶子").SetShared()
+                        .SetValue(new StringList(new[] { "連招 和 清線", "清線", "關閉" }, 1)));
+                misc.AddItem(new MenuItem("Smallminionsprio", "打野優先清小怪").SetShared().SetValue(false));
                 misc.AddItem(
-                    new MenuItem("FocusMinionsOverTurrets", "Focus minions over objectives").SetShared()
+                    new MenuItem("FocusMinionsOverTurrets", "重點小兵超過目標").SetShared()
                         .SetValue(new KeyBind('M', KeyBindType.Toggle)));
 
                 _config.AddSubMenu(misc);
 
                 /* Missile check */
-                _config.AddItem(new MenuItem("MissileCheck", "Use Missile Check").SetShared().SetValue(true));
+                _config.AddItem(new MenuItem("MissileCheck", "使用彈道檢查").SetShared().SetValue(true));
 
                 /* Delay sliders */
                 _config.AddItem(
-                    new MenuItem("ExtraWindup", "Extra windup time").SetShared().SetValue(new Slider(80, 0, 200)));
-                _config.AddItem(new MenuItem("FarmDelay", "Farm delay").SetShared().SetValue(new Slider(0, 0, 200)));
+                    new MenuItem("ExtraWindup", "額外動作延遲").SetShared().SetValue(new Slider(80, 0, 200)));
+                _config.AddItem(new MenuItem("FarmDelay", "清線 延遲").SetShared().SetValue(new Slider(0, 0, 200)));
 
                 /*Load the menu*/
                 _config.AddItem(
-                    new MenuItem("LastHit", "Last hit").SetShared().SetValue(new KeyBind('X', KeyBindType.Press)));
+                    new MenuItem("LastHit", "補刀").SetShared().SetValue(new KeyBind('X', KeyBindType.Press)));
 
-                _config.AddItem(new MenuItem("Farm", "Mixed").SetShared().SetValue(new KeyBind('C', KeyBindType.Press)));
-
-                _config.AddItem(
-                    new MenuItem("Freeze", "Freeze").SetShared().SetValue(new KeyBind('N', KeyBindType.Press)));
+                _config.AddItem(new MenuItem("Farm", "騷擾").SetShared().SetValue(new KeyBind('C', KeyBindType.Press)));
 
                 _config.AddItem(
-                    new MenuItem("LaneClear", "LaneClear").SetShared().SetValue(new KeyBind('V', KeyBindType.Press)));
+                    new MenuItem("Freeze", "控線").SetShared().SetValue(new KeyBind('M', KeyBindType.Press)));
 
                 _config.AddItem(
-                 new MenuItem("Flee", "Flee").SetShared().SetValue(new KeyBind('U', KeyBindType.Press)));
+                    new MenuItem("LaneClear", "清線").SetShared().SetValue(new KeyBind('V', KeyBindType.Press)));
 
                 _config.AddItem(
-                 new MenuItem("WallJump", "WallJump").SetShared().SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Made for Flowers' Riven");
+                 new MenuItem("Flee", "逃跑").SetShared().SetValue(new KeyBind('Z', KeyBindType.Press)));
 
                 _config.AddItem(
-                 new MenuItem("QuickHarass", "Quick/Fast Harass").SetShared().SetValue(new KeyBind('L', KeyBindType.Press))).SetTooltip("Made for Flowers & Nechrito Riven");
+                 new MenuItem("WallJump", "翻牆").SetShared().SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("模式 專用 雷玟");
 
                 _config.AddItem(
-                 new MenuItem("Flee", "Flee").SetShared().SetValue(new KeyBind('M', KeyBindType.Press)));
+                 new MenuItem("QuickHarass", "快速騷擾").SetShared().SetValue(new KeyBind('L', KeyBindType.Press))).SetTooltip("模式 專用 雷玟");
 
                 _config.AddItem(
-                   new MenuItem("Burst", "Burst").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
+                   new MenuItem("Burst", "爆發").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
 
                 _config.AddItem(
-                    new MenuItem("Orbwalk", "Combo").SetShared().SetValue(new KeyBind(32, KeyBindType.Press)));
+                    new MenuItem("Orbwalk", "連招").SetShared().SetValue(new KeyBind(32, KeyBindType.Press)));
 
                 _config.AddItem(
-                    new MenuItem("StillCombo", "Combo without moving").SetShared()
+                    new MenuItem("StillCombo", "連招不動").SetShared()
                         .SetValue(new KeyBind('N', KeyBindType.Press)));
                 _config.Item("StillCombo").ValueChanged +=
                     (sender, args) => { Move = !args.GetNewValue<KeyBind>().Active; };

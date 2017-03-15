@@ -483,6 +483,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Translation.bmp" />
     <None Include="LeagueSharp-Data\App.config" />
     <None Include="LeagueSharp-Data\Resources\ChampionData.json" />
     <None Include="LeagueSharp-Data\Resources\ChampionData\Aatrox.json" />

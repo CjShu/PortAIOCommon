@@ -78,6 +78,7 @@
                 return _appDataDirectory;
             }
         }
+
         /// <summary>
         ///     Gets the show menu press key.
         /// </summary>

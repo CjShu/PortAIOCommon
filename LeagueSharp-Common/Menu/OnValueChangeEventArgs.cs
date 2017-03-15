@@ -1,6 +1,10 @@
 ﻿namespace LeagueSharp.Common
 {
     using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using SharpDX;
+    using SharpDX.Direct3D9;
 
     /// <summary>
     ///     The event arguments holder when a value is changed.

@@ -23,7 +23,7 @@
         /// <summary>
         ///     The menu settings, root menu alias.
         /// </summary>
-        public static readonly Menu Root = new Menu("Menu Settings", "Menu Settings");
+        public static readonly Menu Root = new Menu("菜單 設置", "Menu Settings");
 
         /// <summary>
         ///     The root menus.
@@ -111,25 +111,25 @@
         /// </summary>
         static Menu()
         {
-            Root.AddItem(new MenuItem("BackgroundAlpha", "Background Opacity")).SetValue(new Slider(165, 55, 255));
+            Root.AddItem(new MenuItem("BackgroundAlpha", "菜單 透明度")).SetValue(new Slider(165, 55, 255));
             Root.AddItem(
-                new MenuItem("FontName", "Font Name:").SetValue(
-                    new StringList(new[] { "Tahoma", "Calibri", "Segoe UI" }, 1)));
-            Root.AddItem(new MenuItem("FontSize", "Font Size:").SetValue(new Slider(15, 12, 20)));
+                new MenuItem("FontName", "字體名稱:").SetValue(
+                    new StringList(new[] { "大河馬字體", "宋體", "西文無纜線體" }, 1)));
+            Root.AddItem(new MenuItem("FontSize", "文字大小:").SetValue(new Slider(15, 12, 20)));
             Root.AddItem(
-                new MenuItem("FontQuality", "Font Quality").SetValue(
+                new MenuItem("FontQuality", "文字量質").SetValue(
                     new StringList(
                         Enum.GetValues(typeof(FontQuality)).Cast<FontQuality>().Select(v => v.ToString()).ToArray(),
                         5)));
 
             Root.AddItem(
-                new MenuItem("LeagueSharp.Common.TooltipDuration", "Tooltip Notification Duration").SetValue(
+                new MenuItem("LeagueSharp.Common.TooltipDuration", "提示通知顯示時間").SetValue(
                     new Slider(1500, 0, 5000)));
             Root.AddItem(
-             new MenuItem("Menu.Compact", "Compact Menu").SetValue(false));
+             new MenuItem("Menu.Compact", "緊湊的菜單").SetValue(false));
 
             Root.AddItem(
-                new MenuItem("FontInfo", "Press F5 after your change").SetFontStyle(FontStyle.Bold, Color.Yellow));
+                new MenuItem("FontInfo", "需要按下F5 進行修改 By: CjShu").SetFontStyle(FontStyle.Bold, Color.Yellow));
 
             CommonMenu.Instance.AddSubMenu(Root);
         }

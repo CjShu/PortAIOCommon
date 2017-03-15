@@ -204,8 +204,8 @@
         /// </summary>
         private static void CreateMenu()
         {
-            placetosave = new Menu("PermaShow", "Permashow");
-            var enablepermashow = new MenuItem("enablepermashow", "Enable PermaShow").SetValue(true);
+            placetosave = new Menu("顯示狀態", "Permashow");
+            var enablepermashow = new MenuItem("enablepermashow", "啟動顯示狀態").SetValue(true);
             placetosave.AddItem(enablepermashow);
             var xvalue = new MenuItem("X", "X").SetValue(new Slider((int)DefaultPosition.X, 0, Drawing.Width));
             var yvalue = new MenuItem("Y", "Y").SetValue(new Slider((int)DefaultPosition.Y, 0, Drawing.Height));
@@ -214,17 +214,17 @@
             placetosave.AddItem(xvalue);
             placetosave.AddItem(yvalue);
 
-            var bigwidth = new MenuItem("bwidth", "Width").SetValue(new Slider((int)DefaultPermaShowWidth, 100, 400));
+            var bigwidth = new MenuItem("bwidth", "寬度").SetValue(new Slider((int)DefaultPermaShowWidth, 100, 400));
             var smallwidth =
-                new MenuItem("swidth", "Indicator Width").SetValue(new Slider((int)DefaultSmallBoxWidth, 30, 90));
+                new MenuItem("swidth", "指定寬度").SetValue(new Slider((int)DefaultSmallBoxWidth, 30, 90));
 
-            var moveable = new MenuItem("moveable", "Moveable").SetValue(true);
+            var moveable = new MenuItem("moveable", "移動").SetValue(true);
 
             placetosave.AddItem(moveable);
             placetosave.AddItem(bigwidth);
             placetosave.AddItem(smallwidth);
 
-            var def = new MenuItem("defaults", "Default").SetValue(false);
+            var def = new MenuItem("defaults", "預設").SetValue(false);
             def.ValueChanged += (sender, args) =>
                 {
                     if (args.GetNewValue<bool>())
