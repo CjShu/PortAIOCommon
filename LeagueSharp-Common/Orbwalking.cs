@@ -201,12 +201,12 @@ namespace LeagueSharp.Common
                 if (args.Animation == "Attack1" ||
                     args.Animation == "Crit" ||
                     args.Animation == "Attack2" ||
-                    args.AnimationHash.ToString("x8") == "d7d89ccc" || // kali
-                    args.AnimationHash.ToString("x8") == "a75d185e" || // yi
-                    args.AnimationHash.ToString("x8") == "58b1ec4a" || // yasuo
-                    args.AnimationHash.ToString("x8") == "53b1e46b" || // yasuo
-                    args.AnimationHash.ToString("x8") == "730fbce4" || // yasuo
-                    args.AnimationHash.ToString("x8") == "b7f64047" // twitch
+                    args.AnimationHash.ToString("x8") == "d7d89ccc" || // kali - passive
+                    (args.AnimationHash.ToString("x8") == "a75d185e" && (sender.Name.ToLower().Contains("master")) || sender.Name.ToLower().Contains("lucian")) || // universal passive hash
+                    args.AnimationHash.ToString("x8") == "58b1ec4a" || // yasuo - aa1
+                    args.AnimationHash.ToString("x8") == "53b1e46b" || // yasuo - aa2
+                    args.AnimationHash.ToString("x8") == "730fbce4" || // yasuo - aa3
+                    (args.AnimationHash.ToString("x8") == "b7f64047" && sender.Name.ToLower().Contains("twitch")) // twitch - R
                     )
                 {
                     LastAATick = Core.GameTickCount - Game.Ping / 2;
@@ -417,7 +417,7 @@ namespace LeagueSharp.Common
                 return false;
             }
 
-            /*if (Player.ChampionName == "Graves")
+            if (Player.ChampionName == "Graves")
             {
                 var attackDelay = 1.0740296828d * 1000 * Player.AttackDelay - 716.2381256175d;
                 if (Core.GameTickCount + Game.Ping / 2 + 25 >= LastAATick + attackDelay && Player.HasBuff("GravesBasicAttackAmmo1"))
@@ -425,7 +425,7 @@ namespace LeagueSharp.Common
                     return true;
                 }
                 return false;
-            }//*/
+            }
 
             if (Player.ChampionName == "Jhin")
             {
@@ -534,7 +534,7 @@ namespace LeagueSharp.Common
         public static float GetRealAutoAttackRange(AttackableUnit target = null)
         {
             var result = EloBuddy.Player.Instance.GetAutoAttackRange(null);
-            if (target.IsValidTarget() && target != null)
+            if (target != null)
             {
                 var aiBase = target as Obj_AI_Base;
                 if (aiBase != null && Player.ChampionName == "Caitlyn")
@@ -558,7 +558,7 @@ namespace LeagueSharp.Common
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public static bool InAutoAttackRange(AttackableUnit target)
         {
-            if (!target.IsValidTarget() || target == null)
+            if (target == null)
             {
                 return false;
             }
@@ -698,6 +698,16 @@ namespace LeagueSharp.Common
                             {
                                 LastAttackCommandT = Core.GameTickCount;
                                 _lastTarget = target;
+
+                                Core.DelayAction(
+                                delegate
+                                {
+                                    LastAATick = Core.GameTickCount - Game.Ping / 2;
+                                    _missileLaunched = false;
+                                    LastMoveCommandT = 0;
+                                    _autoattackCounter++;
+                                }
+                                , ((int)Player.AttackDelay * 100) + Game.Ping);
                             }
                             return;
                         }
@@ -1059,7 +1069,7 @@ namespace LeagueSharp.Common
                 var misc = new Menu("其他", "Misc");
                 misc.AddItem(
                     new MenuItem("HoldPosRadius", "保持半徑距離").SetShared().SetValue(new Slider(50, 50, 250)));
-                misc.AddItem(new MenuItem("PriorizeFarm", "優先補兵").SetShared().SetValue(true));
+                misc.AddItem(new MenuItem("PriorizeFarm", "騷擾優先補兵").SetShared().SetValue(true));
                 misc.AddItem(new MenuItem("AttackWards", "自動攻擊眼").SetShared().SetValue(false));
                 misc.AddItem(new MenuItem("AttackPetsnTraps", "自動攻擊 寵物").SetShared().SetValue(true));
                 misc.AddItem(
@@ -1096,10 +1106,10 @@ namespace LeagueSharp.Common
                  new MenuItem("Flee", "逃跑").SetShared().SetValue(new KeyBind('Z', KeyBindType.Press)));
 
                 _config.AddItem(
-                 new MenuItem("WallJump", "翻牆").SetShared().SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("模式 專用 雷玟");
+                 new MenuItem("WallJump", "翻牆").SetShared().SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Made for Flowers' Riven");
 
                 _config.AddItem(
-                 new MenuItem("QuickHarass", "快速騷擾").SetShared().SetValue(new KeyBind('L', KeyBindType.Press))).SetTooltip("模式 專用 雷玟");
+                 new MenuItem("QuickHarass", "快速騷擾").SetShared().SetValue(new KeyBind('L', KeyBindType.Press))).SetTooltip("Made for Flowers & Nechrito Riven");
 
                 _config.AddItem(
                    new MenuItem("Burst", "爆發").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
@@ -1283,7 +1293,7 @@ namespace LeagueSharp.Common
 
                         if (enemyGangPlank != null)
                         {
-                            var barrels = ObjectManager.Get<Obj_AI_Base>().Where(minion => minion.CharData.BaseSkinName == "GangplankBarrel" && minion.IsValidTarget() && this.InAutoAttackRange(minion));
+                            var barrels = ObjectManager.Get<Obj_AI_Base>().Where(minion => minion.CharData.BaseSkinName == "GangplankBarrel" && this.InAutoAttackRange(minion));
 
                             foreach (var barrel in barrels)
                             {
@@ -1329,7 +1339,7 @@ namespace LeagueSharp.Common
                 {
                     var MinionList =
                         EntityManager.MinionsAndMonsters.EnemyMinions
-                            .Where(minion => minion.IsValidTarget() && this.InAutoAttackRange(minion))
+                            .Where(minion => minion != null && this.InAutoAttackRange(minion))
                             .OrderByDescending(minion => minion.CharData.BaseSkinName.Contains("Siege"))
                             .ThenBy(minion => minion.CharData.BaseSkinName.Contains("Super"))
                             .ThenBy(minion => minion.Health)
@@ -1392,7 +1402,7 @@ namespace LeagueSharp.Common
                 {
                     /* turrets */
                     foreach (var turret in
-                        ObjectManager.Get<Obj_AI_Turret>().Where(t => t.IsValidTarget() && this.InAutoAttackRange(t)))
+                        ObjectManager.Get<Obj_AI_Turret>().Where(t => t != null && !t.IsDead && this.InAutoAttackRange(t)))
                     {
                         return turret;
                     }
@@ -1400,14 +1410,14 @@ namespace LeagueSharp.Common
                     /* inhibitor */
                     foreach (var turret in
                         ObjectManager.Get<Obj_BarracksDampener>()
-                            .Where(t => t.IsValidTarget() && this.InAutoAttackRange(t)))
+                            .Where(t => t != null && !t.IsDead && this.InAutoAttackRange(t)))
                     {
                         return turret;
                     }
 
                     /* nexus */
                     foreach (var nexus in
-                        ObjectManager.Get<Obj_HQ>().Where(t => t.IsValidTarget() && this.InAutoAttackRange(t)))
+                        ObjectManager.Get<Obj_HQ>().Where(t => t != null && !t.IsDead && this.InAutoAttackRange(t)))
                     {
                         return nexus;
                     }
@@ -1463,7 +1473,7 @@ namespace LeagueSharp.Common
                         var minions =
                             MinionManager.GetMinions(this.Player.Position, this.Player.AttackRange + 200)
                                 .Where(
-                                    minion =>
+                                    minion => minion != null &&
                                     this.InAutoAttackRange(minion) && ClosestTower.Distance(minion, true) < 900 * 900)
                                 .OrderByDescending(minion => minion.CharData.BaseSkinName.Contains("Siege"))
                                 .ThenBy(minion => minion.CharData.BaseSkinName.Contains("Super"))
@@ -1661,7 +1671,7 @@ namespace LeagueSharp.Common
                         result = (from minion in
                                       ObjectManager.Get<Obj_AI_Minion>()
                                       .Where(
-                                          minion => this.InAutoAttackRange(minion)
+                                          minion => minion != null && this.InAutoAttackRange(minion)
                                           && this.ShouldAttackMinion(minion) && !minion.BaseSkinName.Contains("Plant"))
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(
