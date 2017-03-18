@@ -1102,10 +1102,10 @@ namespace LeagueSharp.Common
                 _config.AddItem(
                     new MenuItem("LaneClear", "清線").SetShared().SetValue(new KeyBind('V', KeyBindType.Press)));
 
-                _config.AddItem(
+             /*   _config.AddItem(
                  new MenuItem("Flee", "逃跑").SetShared().SetValue(new KeyBind('Z', KeyBindType.Press)));
 
-                _config.AddItem(
+                 _config.AddItem(
                  new MenuItem("WallJump", "翻牆").SetShared().SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Made for Flowers' Riven");
 
                 _config.AddItem(
@@ -1113,7 +1113,7 @@ namespace LeagueSharp.Common
 
                 _config.AddItem(
                    new MenuItem("Burst", "爆發").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
-
+              */
                 _config.AddItem(
                     new MenuItem("Orbwalk", "連招").SetShared().SetValue(new KeyBind(32, KeyBindType.Press)));
 
@@ -1178,16 +1178,16 @@ namespace LeagueSharp.Common
                         return OrbwalkingMode.Mixed;
                     }
 
-                    if (_config.Item("Flee").GetValue<KeyBind>().Active)
+                  /*  if (_config.Item("Flee").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.Flee;
                     }
-
+                  
                     if (_config.Item("Burst").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.Burst;
                     }
-
+                  */
                     if (_config.Item("Freeze").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.Freeze;
@@ -1197,7 +1197,7 @@ namespace LeagueSharp.Common
                     {
                         return OrbwalkingMode.LastHit;
                     }
-
+                  /*
                     if (_config.Item("WallJump").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.WallJump;
@@ -1207,6 +1207,7 @@ namespace LeagueSharp.Common
                     {
                         return OrbwalkingMode.QuickHarass;
                     }
+                    */
 
                     if (_config.Item(this.CustomModeName) != null
                         && _config.Item(this.CustomModeName).GetValue<KeyBind>().Active)
